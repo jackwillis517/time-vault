@@ -10,13 +10,14 @@ contract TimeVault {
     fallback() external payable {}
 
     function deposit() public payable{
+        require(msg.value > 0, "You must deposit ETH.");
         times[msg.sender] = block.timestamp + 30;
         deposits[msg.sender] = msg.value;
         payable(address(this)).transfer(msg.value);
     }
 
     function withdraw() public payable{
-        require(deposits[msg.sender] > 0, "You didn't deposite any ETH.");
+        require(deposits[msg.sender] > 0, "You didn't deposit any ETH.");
         require(block.timestamp > times[msg.sender], "You still need to wait.");
         payable(msg.sender).transfer(deposits[msg.sender]);
     }
