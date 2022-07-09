@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/TimeVault.sol": {
+      "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.8;\r\n\r\ncontract TimeVault {\r\n    mapping(address => uint256) public deposits;\r\n    mapping(address => uint256) public times;\r\n\r\n    receive() external payable {}\r\n\r\n    fallback() external payable {}\r\n\r\n    function deposit() public payable{\r\n        require(msg.value > 0, \"You must deposit ETH.\");\r\n        times[msg.sender] = block.timestamp + 30;\r\n        deposits[msg.sender] = msg.value;\r\n        payable(address(this)).transfer(msg.value);\r\n    }\r\n\r\n    function withdraw() public payable{\r\n        require(deposits[msg.sender] > 0, \"You didn't deposit any ETH.\");\r\n        require(block.timestamp > times[msg.sender], \"You still need to wait.\");\r\n        payable(msg.sender).transfer(deposits[msg.sender]);\r\n    }\r\n\r\n    function increaseTime(uint256 timeToAdd) public{\r\n        require(timeToAdd > 0, \"Time to add must be positive.\");\r\n        times[msg.sender] += timeToAdd;\r\n    }\r\n\r\n    function getDeposit() public view returns (uint256){\r\n        return deposits[msg.sender] / 1e18;\r\n    }\r\n}"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
