@@ -1,8 +1,7 @@
 const { ethers, network } = require("hardhat")
 const fs = require("fs")
-const { time } = require("console")
 
-const FRONT_END_ADDRESSES_FILE = "../time-vault-frontend/constants/contractAddress.json"
+const FRONT_END_ADDRESSES_FILE = "../time-vault-frontend/constants/contractAddresses.json"
 const FRONT_END_ABI_FILE = "../time-vault-frontend/constants/abi.json"
 
 module.exports = async function () {
