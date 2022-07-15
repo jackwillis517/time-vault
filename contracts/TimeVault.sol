@@ -9,6 +9,8 @@ contract TimeVault {
 
     fallback() external payable {}
 
+    event TimeLeft(uint time);
+
     function deposit() public payable{
         require(msg.value > 0, "You must deposit ETH.");
         times[msg.sender] = block.timestamp + 30;
@@ -29,5 +31,11 @@ contract TimeVault {
 
     function getDeposit() public view returns (uint256){
         return deposits[msg.sender] / 1e18;
+    }
+
+    function getTime() public returns (uint256){
+        uint timeLeft = times[msg.sender] - block.timestamp;
+        emit TimeLeft(timeLeft);
+        return timeLeft;
     }
 }
