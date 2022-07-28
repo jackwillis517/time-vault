@@ -24,7 +24,7 @@ async function updateContractAddresses() {
         if(!currentAddresses[chainId].includes(timeVault.address)){
             currentAddresses[chainId].push(timeVault.address)
         }
-    } {
+    } else {
         currentAddresses[chainId] = [timeVault.address]
     }
     fs.writeFileSync(FRONT_END_ADDRESSES_FILE, JSON.stringify(currentAddresses))
